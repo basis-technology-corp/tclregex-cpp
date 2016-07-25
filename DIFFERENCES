@@ -1,0 +1,50 @@
+=========================================================
+ Differences between Tcl/Tk Regular Expressions and PCRE 
+=========================================================
+
+* Lookbehind assertions:
+   - Tcl REs do not support positive/negative lookbehind assertions.
+
+* Metasyntax:
+   - Flags (i.e. "(?x)") apply throughout the expression no matter
+      where they appear.
+
+* Conditional matches:
+   - Tcl REs do not support conditional matches.
+      i.e. (?(condition)yes-pattern|no-pattern)
+
+* Character classes/properties:
+   - Tcl supports the full Unicode locale, meaning the standard POSIX
+      character classes ([:alpha:], etc.) are extended over all Unicode 
+      characters.
+   - Tcl does not support matching characters by character properties
+      (i.e. \p{} and \P{}).
+
+* Recursive patterns:
+   - Tcl does not support recursive patterns.
+
+* Syntax:
+   - '\b' for word boundary is replaced by '\y'.
+   - '\m' and '\M' match only beginnings and ends of words respectively.
+
+For more specific details on Tcl RE syntax refer to the Tcl "re_syntax"
+manual page (http://www.tcl.tk/man/tcl8.4/TclCmd/re_syntax.htm).
+
+In the version of the TCL regexp engine used here the following
+character classes have been implemented to replace the lack of support
+for character properties:
+
+Unicode properties: Cc Cf Co Cs Ll Lm Lo Lt Lu Mc Me Mn Nd Nl No Pc Pd
+Pe Pf Pi Po Ps Sc Sk Sm So Zl Zp Zs 
+
+Unicode scripts: Arabic Armenian Bengali Bopomofo Braille Buginese
+Buhid Canadian_Aboriginal Cherokee Common Coptic Cyrillic Devanagari
+Ethiopic Georgian Glagolitic Greek Gujarati Gurmukhi Han Hangul
+Hanunoo Hebrew Hiragana Inherited Kannada Katakana Khmer Lao Latin
+Limbu Malayalam Mongolian Myanmar New_Tai_Lue Ogham Oriya Runic
+Sinhala Syloti_Nagri Syriac Tagalog Tagbanwa Tai_Le Tamil Telugu
+Thaana Thai Tibetan Tifinagh Yi
+
+These can be used in the same manner as the POSIX character class. For
+example: "[[:Hiragana:]]" or "[[:Zs:]]" would match a single Hiragana
+character or whitespace character respectively.
